@@ -34,7 +34,7 @@
     font-size: 18px;
 }
 
-.loginsignup-container button{
+.loginsignup-container .button-login{
     width: 580px;
     height: 72px;
     color: white;

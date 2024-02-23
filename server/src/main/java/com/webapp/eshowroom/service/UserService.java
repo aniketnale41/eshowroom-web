@@ -1,11 +1,15 @@
 package com.webapp.eshowroom.service;
 
+import com.webapp.eshowroom.domain.Product;
 import com.webapp.eshowroom.domain.User;
+import com.webapp.eshowroom.model.ProductDTO;
 import com.webapp.eshowroom.model.UserDTO;
 import com.webapp.eshowroom.repos.UserRepository;
 import com.webapp.eshowroom.util.NotFoundException;
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 
@@ -24,6 +28,14 @@ public class UserService {
                 .map(user -> mapToDTO(user, new UserDTO()))
                 .toList();
     }
+    
+    public UserDTO findAllByEmail(String email) {
+    	Specification<User> usernameFilterSpec = (root,query,builder) -> builder.like(root.get("email"), "%"+email+"%");
+		final User user = userRepository.findAll(usernameFilterSpec).get(0);
+		UserDTO userDto= new UserDTO();
+		mapToDTO(user,userDto);
+		return userDto;
+    }
 
     public UserDTO get(final Long id) {
         return userRepository.findById(id)
@@ -34,6 +46,7 @@ public class UserService {
     public Long create(final UserDTO userDTO) {
         final User user = new User();
         mapToEntity(userDTO, user);
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
         return userRepository.save(user).getId();
     }
 
@@ -50,24 +63,16 @@ public class UserService {
 
     private UserDTO mapToDTO(final User user, final UserDTO userDTO) {
         userDTO.setId(user.getId());
-        userDTO.setUsername(user.getUsername());
+        userDTO.setName(user.getName());
         userDTO.setEmail(user.getEmail());
-        userDTO.setFirst(user.getFirst());
-        userDTO.setLast(user.getLast());
-        userDTO.setPhone(user.getPhone());
-        userDTO.setAddress(user.getAddress());
-        userDTO.setGender(user.getGender());
+        userDTO.setPassword(user.getPassword());
         return userDTO;
     }
 
     private User mapToEntity(final UserDTO userDTO, final User user) {
-        user.setUsername(userDTO.getUsername());
+        user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
-        user.setFirst(userDTO.getFirst());
-        user.setLast(userDTO.getLast());
-        user.setPhone(userDTO.getPhone());
-        user.setAddress(userDTO.getAddress());
-        user.setGender(userDTO.getGender());
+        user.setPassword(userDTO.getPassword());
         return user;
     }
 

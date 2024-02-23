@@ -24,25 +24,13 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String username;
+    private String name;
 
     @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
-    private String first;
-
-    @Column(nullable = false)
-    private String last;
-
-    @Column(nullable = false)
-    private Long phone;
-
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
-    private String gender;
+    private String password;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -60,12 +48,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(final String username) {
-        this.username = username;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -76,44 +64,12 @@ public class User {
         this.email = email;
     }
 
-    public String getFirst() {
-        return first;
+    public String getPassword() {
+        return password;
     }
 
-    public void setFirst(final String first) {
-        this.first = first;
-    }
-
-    public String getLast() {
-        return last;
-    }
-
-    public void setLast(final String last) {
-        this.last = last;
-    }
-
-    public Long getPhone() {
-        return phone;
-    }
-
-    public void setPhone(final Long phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(final String address) {
-        this.address = address;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(final String gender) {
-        this.gender = gender;
+    public void setPassword(final String password) {
+        this.password = password;
     }
 
     public OffsetDateTime getDateCreated() {
