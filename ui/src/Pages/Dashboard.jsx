@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdDeleteForever, MdCreate } from "react-icons/md";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -7,13 +7,15 @@ import { Confirm, Loading, Notify } from "notiflix";
 
 function Dashoboard() {
     const [productList, setProductList] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get("/api/products")
             .then((res) => {
                 setProductList(res.data);
             }).catch((err) => {
-                console.log(err)
+                Notify.failure("Login to access the dashboard");
+                navigate("/login")
             });
     }, []);
 

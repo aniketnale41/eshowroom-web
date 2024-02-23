@@ -3,9 +3,12 @@ package com.webapp.eshowroom.controller;
 import com.webapp.eshowroom.model.ProductDTO;
 import com.webapp.eshowroom.service.ProductService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +33,24 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+    public ResponseEntity<?> getAllProducts(HttpServletRequest request) {
+    	Cookie[] cookies = request.getCookies();    	
+    	String token = null;
+    	if(cookies == null || cookies.length == 0 ) {
+    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+    	}else {
+    		for(Cookie cookie: cookies) {
+    			if(cookie.getName().equals("token")) {
+    				token = cookie.getValue();
+    				break;
+    			}
+    		}
+    	}
+    	if(token == null) {
+    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+    	}else {
+    		//TODO validate token ( replace with jwt token)
+    	}
         return ResponseEntity.ok(productService.findAll());
     }
 
