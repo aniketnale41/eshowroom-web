@@ -20,7 +20,10 @@ export const Hero = () => {
                 <p>for everyone</p>
                 </div>   
                 <div className='hero-latest-btn'>
-                    <div>Latest Collection</div>
+                    <button onClick={()=> {
+                        const section = document.querySelector( '#latest' );
+                        section.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+                    }}>Latest Collection</button>
                     <img src={arrow_icon} alt="" />
                 </div>
             </div>

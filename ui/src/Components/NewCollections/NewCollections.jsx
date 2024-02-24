@@ -1,19 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './NewCollections.css'
-import new_collection from '../Assets/new_collections'
-import Item from '../Item/Item'
+import CategoryItem from '../Item/CategoryItem'
+import axios from 'axios'
 
- const NewCollections = () => {
+const NewCollections = ({ title, type }) => {
+
+  const [categoryList, setCategoryList] = useState([]);
+
+  useEffect(() => {
+    axios.get("/api/products/category/" + type).then((res) => {
+      setCategoryList(res.data);
+    }).catch((err) => {
+      console.error("Error occured", err);
+    })
+  }, []);
+
   return (
-    <div className='new-collections'>
-        <h1>NEW COLLECTIONS</h1>
-        <hr/>
-        <div className="collections">
-        {new_collection.map((item,i)=>{
-                return <Item key={i} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price}/>
-            })}
-        </div>
-    </div>
+    <>
+      <h1>{title}</h1>
+      {title != "" ? <hr /> : <></>}
+      <div className="collections flex w-2/3 items-center justify-center">
+        {categoryList.map((item, i) => {
+          return <CategoryItem key={i} id={item.id} name={item.name} image={item.imageData} new_price={item.newPrice} old_price={item.oldPrice} showcase={true} />
+        })}
+      </div>
+    </>
+
   )
 }
 export default NewCollections

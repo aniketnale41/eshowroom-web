@@ -34,23 +34,6 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<?> getAllProducts(HttpServletRequest request) {
-    	Cookie[] cookies = request.getCookies();    	
-    	String token = null;
-    	if(cookies == null || cookies.length == 0 ) {
-    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
-    	}else {
-    		for(Cookie cookie: cookies) {
-    			if(cookie.getName().equals("token")) {
-    				token = cookie.getValue();
-    				break;
-    			}
-    		}
-    	}
-    	if(token == null) {
-    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
-    	}else {
-    		//TODO validate token ( replace with jwt token)
-    	}
         return ResponseEntity.ok(productService.findAll());
     }
 
@@ -71,9 +54,9 @@ public class ProductController {
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<Long> updateProduct(@PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final ProductDTO productDTO) {
+    		@ModelAttribute final ProductDTO productDTO) {
         productService.update(id, productDTO);
         return ResponseEntity.ok(id);
     }

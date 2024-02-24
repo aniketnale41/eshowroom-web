@@ -36,7 +36,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>install</arguments>
+							<arguments>ci</arguments>
 						</configuration>
 						<phase>process-resources</phase>
 					</execution>

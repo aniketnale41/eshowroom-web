@@ -20,7 +20,7 @@ import whatsapp_icon from '../Assets/whatsapp_icon.png'
             <li>About</li>
             <li>Contact</li>
         </ul>
-        <div className="footer-socials-icon">
+        <div className="footer-socials-icon flex w-1/6 justify-evenly">
             <div className="footer-items-container">
                 <img src={instagram_icon} alt=""/>
             </div>

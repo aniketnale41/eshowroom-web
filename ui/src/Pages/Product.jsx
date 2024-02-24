@@ -1,11 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../Context/ShopContext'
 import { useParams } from 'react-router-dom';
 import Breadcrum from '../Components/Breadcrum/Breadcrum'
 import ProductDisplay from '../Components/ProductDisplay/ProductDisplay';
-import { useEffect } from 'react';
 import axios from 'axios';
-import { useState } from 'react';
 
 const Product = () => {
   // const {all_product} = useContext(ShopContext);

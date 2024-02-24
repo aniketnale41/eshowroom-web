@@ -1,21 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import { MdDeleteForever, MdCreate } from "react-icons/md";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Confirm, Loading, Notify } from "notiflix";
+import AuthContext from "../Context/AuthContext";
 
 function Dashoboard() {
     const [productList, setProductList] = useState([]);
     const navigate = useNavigate();
+    const {isAdmin} = useContext(AuthContext);
 
     useEffect(() => {
+        if(!isAdmin){
+            navigate("/")
+            return;
+        }
         axios.get("/api/products")
             .then((res) => {
                 setProductList(res.data);
             }).catch((err) => {
                 Notify.failure("Login to access the dashboard");
-                navigate("/login")
+                // navigate("/login")
             });
     }, []);
 
@@ -94,7 +100,7 @@ function Dashoboard() {
                                         <img className="" height={30} width={30} src={"data:image/png;base64," + product.imageData} alt="" />
                                     </td>
                                     <td className="px-6 py-4 flex">
-                                        <button className="text-teal-500 ">
+                                        <button className="text-teal-500" onClick={() => navigate("/product/edit/"+product.id)}>
                                             <MdCreate size={20.0} />
                                         </button>
                                         <button className="text-red-600" onClick={() => handleDeleteClick(product.id)}>

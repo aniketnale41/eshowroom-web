@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
  const CategoryItem = (props) => {
   return (
     <div className='item'>
-        <Link to={`/product/${props.id}`}><img src={"data:image/png;base64,"+props.image} width={100} alt=""/></Link>
+        <Link to={`/product/${props.id}`}><img src={"data:image/png;base64,"+props.image} width={props.showcase ? 250 : 100} alt=""/></Link>
         <p>{props.name}</p>
         <div className='item-price'>
             <div className='item-price-new'>

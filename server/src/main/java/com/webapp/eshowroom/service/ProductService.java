@@ -79,13 +79,15 @@ public class ProductService {
 	private Product mapToEntity(final ProductDTO productDTO, final Product product) {
 		product.setName(productDTO.getName());
 		product.setCategory(productDTO.getCategory());
-		product.setImageName(productDTO.getImage().getOriginalFilename());
-		product.setImageType(productDTO.getImage().getContentType());
-		try {
-			product.setImageData(((Session) entManager).getLobHelper().createBlob(productDTO.getImage().getBytes()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(productDTO.getImage() != null) {			
+			product.setImageName(productDTO.getImage().getOriginalFilename());
+			product.setImageType(productDTO.getImage().getContentType());
+			try {
+				product.setImageData(((Session) entManager).getLobHelper().createBlob(productDTO.getImage().getBytes()));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		product.setNewPrice(productDTO.getNewPrice());
 		product.setOldPrice(productDTO.getOldPrice());

@@ -23,7 +23,7 @@ public class EshowroomApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 CorsRegistration reg = registry.addMapping("/api/**");
-                reg.allowedOrigins("http://localhost:3000");
+                reg.allowedOrigins("http://localhost:3000","https://*.trycloudflare.com");
                 reg.allowedMethods(CorsConfiguration.ALL);
             }
         };
